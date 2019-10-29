@@ -1,7 +1,7 @@
 import fs from "fs";
 import EdfParser from './EdfParser';
 
-class EdfFileParser extends EdfParser {
+export default class EdfFileParser extends EdfParser {
 
     private path: string;
 
@@ -32,5 +32,3 @@ class EdfFileParser extends EdfParser {
     }
 
 }
-
-module.exports = EdfFileParser;

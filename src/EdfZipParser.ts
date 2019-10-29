@@ -11,7 +11,7 @@ const defaultOptions = {
     filter: /^.*\.edf$/
 };
 
-class EdfZipParser extends GenericEdfParser {
+export default class EdfZipParser extends GenericEdfParser {
 
     private path: string;
     private options: EdfZipParserOptions;
@@ -74,5 +74,3 @@ class EdfZipParser extends GenericEdfParser {
         return this.data;
     }
 }
-
-module.exports = EdfZipParser;
