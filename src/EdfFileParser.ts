@@ -1,14 +1,16 @@
-const fs = require("fs");
-const EdfParser = require('./EdfParser');
+import fs from "fs";
+import EdfParser from './EdfParser';
 
 class EdfFileParser extends EdfParser {
 
-    constructor(path) {
+    private path: string;
+
+    constructor(path: string) {
         super(null);
         this.path = path;
     }
 
-    async readFile() {
+    async readFile(): Promise<Buffer> {
         return new Promise((resolve, reject) => {
             fs.readFile(this.path, (err, raw) => {
                 err && reject(err);
@@ -22,6 +24,9 @@ class EdfFileParser extends EdfParser {
         if (!this.edf) {
             this.raw = await this.readFile();
             await super.parse();
+        }
+        if (!this.edf) {
+            throw new Error('Failed to parse edf');
         }
         return this.edf;
     }

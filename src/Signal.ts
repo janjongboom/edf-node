@@ -1,8 +1,28 @@
-class Signal {
+export default class Signal {
+
+    private _label: string | null;
+    private _transducerType: string | null;
+    private _physicalDimensions: string | null;
+    private _physicalMin: number | null;
+    private _physicalMax: number | null;
+    private _digitalMin: number | null;
+    private _digitalMax: number | null;
+    private _prefiltering: string | null;
+    private _numSamplesInDataRecord: number;
+    private _sampleDuration: number | null;
+    private _sampleRate: number | null;
+    private _bytesInDataRecord: number;
+
+    public data: {
+        // Observed time for the event
+        time: Date,
+        // Value is either a string (when we're doing annotations) or a number (for normal sensor readings)
+        value: number | string,
+        // Duration in seconds
+        duration?: number
+    }[] = [];
 
     constructor() {
-        this.data = [];
-
         this._label = null;
         this._transducerType = null;
         this._physicalDimensions = null;
@@ -11,10 +31,10 @@ class Signal {
         this._digitalMin = null;
         this._digitalMax = null;
         this._prefiltering = null;
-        this._numSamplesInDataRecord = null;
+        this._numSamplesInDataRecord = 0;
         this._sampleDuration = null;
         this._sampleRate = null;
-        this._bytesInDataRecord = null;
+        this._bytesInDataRecord = 0;
     }
 
     get label() {
@@ -46,6 +66,10 @@ class Signal {
     }
 
     set physicalMin(value) {
+        this._physicalMin = value;
+    }
+
+    setPhysicalMin(value: string) {
         this._physicalMin = parseFloat(value);
     }
 
@@ -53,7 +77,7 @@ class Signal {
         return this._physicalMax;
     }
 
-    set physicalMax(value) {
+    setPhysicalMax(value: string) {
         this._physicalMax = parseFloat(value);
     }
 
@@ -62,6 +86,10 @@ class Signal {
     }
 
     set digitalMin(value) {
+        this._digitalMin = value;
+    }
+
+    setDigitalMin(value: string) {
         this._digitalMin = parseInt(value, 10);
     }
 
@@ -70,6 +98,10 @@ class Signal {
     }
 
     set digitalMax(value) {
+        this._digitalMax = value;
+    }
+
+    setDigitalMax(value: string) {
         this._digitalMax = parseInt(value, 10);
     }
 
@@ -86,6 +118,10 @@ class Signal {
     }
 
     set numSamplesInDataRecord(value) {
+        this._numSamplesInDataRecord = value;
+    }
+
+    setNumSamplesInDataRecord(value: string) {
         this._numSamplesInDataRecord = parseInt(value, 10);
     }
 
@@ -94,6 +130,10 @@ class Signal {
     }
 
     set sampleDuration(value) {
+        this._sampleDuration = value;
+    }
+
+    setSampleDuration(value: string) {
         this._sampleDuration = parseFloat(value);
     }
 
@@ -102,6 +142,10 @@ class Signal {
     }
 
     set sampleRate(value) {
+        this._sampleRate = value;
+    }
+
+    setSampleRate(value: string) {
         this._sampleRate = parseFloat(value);
     }
 
@@ -110,9 +154,10 @@ class Signal {
     }
 
     set bytesInDataRecord(value) {
-        this._bytesInDataRecord = parseInt(value, 10);
+        this._bytesInDataRecord = value;
     }
 
+    setBytesInDataRecord(value: string) {
+        this._bytesInDataRecord = parseInt(value, 10);
+    }
 }
-
-module.exports = Signal;

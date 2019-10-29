@@ -25,13 +25,16 @@
     "url": "https://github.com/korob93/edf-node"
   },
   "dependencies": {
-    "adm-zip": "^0.4.7",
+    "adm-zip": "^0.4.13",
     "moment-timezone": "^0.5.14"
   },
   "devDependencies": {
+    "@types/adm-zip": "^0.4.32",
+    "@types/moment-timezone": "^0.5.12",
+    "@types/node": "^12.11.7",
     "chai": "^4.1.0",
     "chai-as-promised": "^7.1.1",
     "chai-things": "^0.2.0",
-    "mocha": "^3.5.0"
+    "mocha": "^6.2.2"
   }
 }

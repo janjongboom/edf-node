@@ -1,12 +1,25 @@
-const moment = require('moment-timezone');
-
+import Signal from "./Signal";
+import moment from 'moment-timezone';
 
 const EDF_DATE_REGEX = /^.*(\d{2}-(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)-\d{4}).*$/;
 
-class Edf {
+export default class Edf {
 
-    constructor(timezone) {
-        this.signals = [];
+    public signals: Signal[] = [];
+    private timezone: string;
+    private _version: string | null;
+    private _patientId: string | null;
+    private _recordingId: string | null;
+    private _startDate: Date | null;
+    private _startTime: Date | null;
+    private _numberOfBytes: number | null;
+    private _numDataRecords: number | null;
+    private _durationOfDataRecord: number | null;
+    private _numSignalsInDataRecord: number;
+    private _bytesInDataRecord: number;
+    private _numSamplesInDataRecord: number;
+
+    constructor(timezone: string) {
         this.timezone = timezone;
 
         this._version = null;
@@ -17,9 +30,9 @@ class Edf {
         this._numberOfBytes = null;
         this._numDataRecords = null;
         this._durationOfDataRecord = null;
-        this._numSignalsInDataRecord = null;
-        this._bytesInDataRecord = null;
-        this._numSamplesInDataRecord = null;
+        this._numSignalsInDataRecord = 0;
+        this._bytesInDataRecord = 0;
+        this._numSamplesInDataRecord = 0;
     }
 
     getSignals() {
@@ -54,7 +67,11 @@ class Edf {
         return this._startDate;
     }
 
-    set startDate(value) {
+    setStartDate(value: string) {
+        if (!this.recordingId) {
+            throw new Error('No recording ID yet, set this first before calling setStartDate');
+        }
+
         let match = this.recordingId.match(EDF_DATE_REGEX);
         if (match) {
             this._startDate = moment.tz(`${match[1]}`, 'DD-MMM-YYYY', this.timezone).toDate();
@@ -84,6 +101,14 @@ class Edf {
     }
 
     set startTime(value) {
+        this._startTime = value;
+    }
+
+    setStartTime(value: string) {
+        if (!this.startDate) {
+            throw new Error('startDate not set, but is required before calling setStartTime');
+        }
+
         let timeParts = value.split('.').map(part => parseInt(part, 10));
         this._startTime = moment(this.startDate).add(moment.duration({
             hours: timeParts[0],
@@ -97,6 +122,10 @@ class Edf {
     }
 
     set numberOfBytes(value) {
+        this._numberOfBytes = value;
+    }
+
+    setNumberOfBytes(value: string) {
         this._numberOfBytes = parseInt(value, 10);
     }
 
@@ -105,6 +134,10 @@ class Edf {
     }
 
     set numDataRecords(value) {
+        this._numDataRecords = value;
+    }
+
+    setNumDataRecords(value: string) {
         this._numDataRecords = parseInt(value, 10);
     }
 
@@ -113,6 +146,10 @@ class Edf {
     }
 
     set durationOfDataRecord(value) {
+        this._durationOfDataRecord = value;
+    }
+
+    setDurationOfDataRecord(value: string) {
         this._durationOfDataRecord = parseFloat(value);
     }
 
@@ -121,6 +158,10 @@ class Edf {
     }
 
     set numSignalsInDataRecord(value) {
+        this._numSignalsInDataRecord = value;
+    }
+
+    setNumSignalsInDataRecord(value: string) {
         this._numSignalsInDataRecord = parseInt(value, 10);
     }
 
@@ -129,6 +170,10 @@ class Edf {
     }
 
     set bytesInDataRecord(value) {
+        this._bytesInDataRecord = value;
+    }
+
+    setBytesInDataRecord(value: string) {
         this._bytesInDataRecord = parseInt(value, 10);
     }
 
@@ -137,9 +182,10 @@ class Edf {
     }
 
     set numSamplesInDataRecord(value) {
-        this._numSamplesInDataRecord = parseInt(value, 10);
+        this._numSamplesInDataRecord = value;
     }
 
+    setNumSamplesInDataRecord(value: string) {
+        this._numSamplesInDataRecord = parseInt(value, 10);
+    }
 }
-
-module.exports = Edf;
