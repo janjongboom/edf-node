@@ -2,7 +2,7 @@ import Path from 'path';
 import fs from 'fs';
 import EdfParser from '../src/EdfParser';
 
-const raw = fs.readFileSync(Path.join(process.cwd(), 'Male35yrs_scoringC.edf'));
+const raw = fs.readFileSync(Path.join(process.cwd(), 'test', 'edf', 'Male35yrs_scoringC.edf'));
 const parser = new EdfParser(raw);
 parser.parse()
     .then(edf => {

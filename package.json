@@ -14,15 +14,19 @@
     {
       "name": "Dmitry Vorobev",
       "email": "dvorobevn@gmail.com"
+    },
+    {
+      "name": "Jan Jongboom",
+      "email": "jan@edgeimpulse.com"
     }
   ],
   "scripts": {
     "test": "tsc -p . && ./node_modules/mocha/bin/mocha build/test/test.js"
   },
-  "main": "index.js",
+  "main": "build/src/EdfParser.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/korob93/edf-node"
+    "url": "https://github.com/janjongboom/edf-node"
   },
   "dependencies": {
     "adm-zip": "^0.4.13",
